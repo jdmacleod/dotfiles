@@ -1,0 +1,123 @@
+#
+#	.alias	1.2	11-Aug-1997
+#
+if (! $?UE_SYS_NAME) set UE_SYS_NAME=()
+set UE_SYS_NAME=(.alias $UE_SYS_NAME)
+#
+@ sys_indent_level ++
+if ($?SYS_ENV_VERBOSE) then
+   set indentsp=""
+   if ($?SYS_ENV_INDENT) then
+      @ indent = ${sys_indent_level}
+      while ($indent > 0)
+         set indentsp="$indentsp  "
+         @ indent --
+      end
+   endif
+   echo "${indentsp}+++ ${UE_SYS_NAME[1]} start"
+endif
+
+#------------------------------------------------------------------------------
+#	Add your own personal alias here
+#------------------------------------------------------------------------------
+
+alias a alias
+
+#echo "sourcing personal aliases"
+a pw 'echo `dwd`'
+
+# age-based aliases
+a vy 'vi `/bin/ls -1rt | tail -n 1`'
+a fy 'fcheck `/bin/ls -1rt | tail -n 1`'
+a ly '/bin/ls -1rt | tail -n 1'
+
+ # dev aliases
+a dperl 'cd ~/dev/perl'
+a dpy 'cd ~/dev/python'
+a dmel 'cd ~/dev/mel'
+a drman 'cd ~/dev/rman'
+ 
+# general unix aliases
+a mine "ps -ef | grep $USER"
+a cwd 'echo ${cwd}'
+
+setenv EDITOR vi
+
+a notes '${EDITOR} ~/notes.txt'
+
+# space management...
+a top10 "find ~/ -size +1000k -exec ls -lks {} \; |& sort -nr | head -10";
+
+# queue management
+a pid "ps -aelf | grep";
+a killr "daqadmin -c";
+a lj "daqstat -v | grep RUN"
+a lja "daqstat -t -v -fo $USER";
+a lewis "~fasrio/scripts/lewis "
+
+a tscn "tree scenes -P '*.ma'"
+
+a ccomp 'dplay $SHOTDIR/comp/pix/CAM/fullcomp/v????/1024x540/CAM_fullcomp_v????.`printf %04d \!*`.tif'   
+# view the latest model using div from cmdline
+a divl 'geomview `spca modelLatestIvFile \!* -q` &'
+
+# jump to maya dir for a shot faster
+a ma mayadir
+
+# make listing cogsworth temp dirs easier
+a ltl 'tree -iftD -L 1 /disk1/tmp/ | grep cogsworth'
+a ltt 'tree -iftD -L 1 /disk1/tmp/`/bin/ls -1rt /disk1/tmp | grep cogsworth | tail -1`/textures'
+a lts 'tree -iftD -L 1 /disk1/tmp/`/bin/ls -1rt /disk1/tmp | grep cogsworth | tail -1`/textures/ | egrep '''\'map\$\|dsh\$\'''' '
+a ltm 'tree -iftD -L 1 /disk1/tmp/`/bin/ls -1rt /disk1/tmp | grep cogsworth | tail -1`/textures/ | egrep '''\'tif\$\|env\$\'''' '
+a ltp 'tree -iftD -L 1 /disk1/tmp/`/bin/ls -1rt /disk1/tmp | grep cogsworth | tail -1`/textures/ | egrep '''\'ptc\$\|ptf\$\'''' '
+a ltr 'tree -iftD -L 1 /disk1/tmp/`/bin/ls -1rt /disk1/tmp | grep cogsworth | tail -1` | grep \.rib'
+a ltm 'tree -iftD -L 1 /disk1/tmp/`/bin/ls -1rt /disk1/tmp | grep cogsworth | tail -1`/masters | grep \.rib'
+a lti 'tree -iftD -L 1 /disk1/tmp/`/bin/ls -1rt /disk1/tmp | grep cogsworth | tail -1`/images'
+
+# clear shake cache
+a clearshake "/bin/rm -f /disk1/tmp/NRDC.cdb;/bin/rm -rf /disk1/tmp/NRDC0000;/bin/rm -rf /disk1/tmp/Shake/*"
+
+# clear out the logs, not the summaries from a shot
+#a clearlogs '/usr/bin/find logs -name "logfile*" -print | xargs rm -f'
+a clearlogs '/usr/bin/find logs -name "logfile*.xml.*.*" -print | xargs rm -f'
+
+# exercise related
+a workout 'vi ~/exercise/workout/`date +"%y%m%d"`'
+
+# OS specific aliases
+if (`uname` == "Linux") then
+	a gamma "xgamma -gamma \!*"
+	a	ls	'ls -h --color=auto'
+	a shk run_shake
+	a shkl "shk \!* -std_srgb_2nonlinear"
+	a pp paint3d
+	a nameshell 'dcop $KONSOLE_DCOP_SESSION renameSession "${SEQ}/${SHOT}"'
+endif
+
+# stream from theater
+a streamtheater 'vlc -vvv udp://@239.1.1.1:4900'
+
+# Maya aliases
+alias rmp 'run_maya -proj `dwd`'
+
+#
+#
+#
+#------------------------------------------------------------------------------
+if ($?SYS_ENV_VERBOSE) then
+   set indentsp=""
+   if ($?SYS_ENV_INDENT) then
+      @ indent = ${sys_indent_level}
+      while ($indent > 0)
+         set indentsp="$indentsp  "
+         @ indent --
+      end
+   endif
+   if ($#UE_SYS_NAME >= 2) then
+      echo "${indentsp}+++ ${UE_SYS_NAME[1]} exit, returning to $UE_SYS_NAME[2]"
+   else
+      echo "${indentsp}+++ ${UE_SYS_NAME[1]} exit"
+   endif
+endif
+shift UE_SYS_NAME
+@ sys_indent_level --

@@ -1,0 +1,131 @@
+# Moana specific aliases
+
+echo "sourcing Moana aliases..."
+
+# play frame 1 of everything in temp
+alias tt 'echo playing frame 1 of temp for $NAV_SEQ/$NAV_SHOT;rv $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/pic/temp/*/1920x804/mono/color/*_color.0001.exr &'
+
+# play frame 1 of everything in current
+alias ccc 'echo playing frame 1 of current for $NAV_SEQ/$NAV_SHOT;rv $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/pic/current/*/1920x804/mono/color/*_color.0001.exr &'
+
+# play frame 1 of all hy_all_utility ( temp, current, old )
+alias mm 'echo playing frame 1 of hy_all_utility for $NAV_SEQ/$NAV_SHOT;rv $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/pic/*/hy_all_utility/1920x804/mono/mattes/hy_all_utility_mattes.0001.exr &'
+
+# open latest lighting scene in Maya/Dlight
+
+alias ml 'set MY_RAP=`/bin/ls -1rt $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/maya/scenes/lighting_v????.rap | tail -n 1`;echo Opening latest rap/maya file for $NAV_SEQ/${NAV_SHOT}: `basename ${MY_RAP}`;cd `dirname ${MY_RAP}`/../;doMaya ${MY_RAP};unset ${MY_RAP} &'
+
+
+# open latest foundation scene in Maya/Dlight
+alias fl 'echo opening latest foundation lighting rap/maya file for $NAV_SEQ/$NAV_SHOT;echo `/bin/ls -1rt $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/maya/scenes/foundation_v????.rap | tail -n 1`;cd $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/maya;doMaya `/bin/ls -1rt $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/maya/scenes/foundation_v????.rap | tail -n 1` &'
+
+# open latest lighting scene in Dlight only
+
+alias dl 'set MY_RAP=`/bin/ls -1rt $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/maya/scenes/lighting_v????.rap | tail -n 1`;echo Opening latest rap/maya file for $NAV_SEQ/${NAV_SHOT}: `basename ${MY_RAP}`;cd `dirname ${MY_RAP}`/../;dlight ${MY_RAP};unset ${MY_RAP} &'
+
+
+# open latest nuke comp script
+
+alias nll 'set MY_COMP=`/bin/ls -1rt $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/comp/fullcomp_v????.nk | tail -n 1`;echo Opening latest comp script for $NAV_SEQ/${NAV_SHOT}: `basename ${MY_COMP}`;run_nuke ${MY_COMP};unset ${MY_COMP} &'
+
+# updated to new nuke rapfile setup 2/11/2015
+alias nl 'set MY_COMP=`/bin/ls -1rt $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/comp/fullcomp_v????.rap | tail -n 1`;echo Opening latest comp rapfile for $NAV_SEQ/${NAV_SHOT}: `basename ${MY_COMP}`;doNuke ${MY_COMP};unset ${MY_COMP} &'
+
+
+# open latest nuke continuity comp script
+alias nc 'echo opening latest continuity script for $NAV_SEQ/$NAV_SHOT;/bin/ls -1rt $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/maya/catalog/continuity_v????.nk | tail -n 1;run_nuke `/bin/ls -1rt $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/maya/catalog/continuity_v????.nk | tail -n 1` &' 
+
+# open Quip standalone with latest file for shots - Maya and Nuke
+
+alias mq 'set MY_QUIP=`/bin/ls -1rt $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/maya/scenes/lighting_v????/shot.quip | tail -n 1`;echo Opening latest maya quipfile file for $NAV_SEQ/${NAV_SHOT}: `basename ${MY_QUIP}`;cd `dirname ${MY_QUIP}`/../;quip ${MY_QUIP};unset ${MY_QUIP} &'
+
+alias nq 'set MY_QUIP=`/bin/ls -1rt $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/comp/fullcomp_v????/shot.quip | tail -n 1`;echo Opening latest comp quipfile for $NAV_SEQ/${NAV_SHOT}: `basename ${MY_QUIP}`;cd `dirname ${MY_QUIP}`/../;quip ${MY_QUIP};unset ${MY_QUIP} &'
+
+# list latest rapfile, scene and comp - for email or other uses
+alias lsl 'echo latest lighting scene for $NAV_SEQ/$NAV_SHOT; /bin/ls -1rt $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/maya/scenes/lighting_v????.rap | tail -n 1; echo latest fullcomp nuke script for $NAV_SEQ/$NAV_SHOT; /bin/ls -1rt $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/comp/fullcomp_v????.nk | tail -n 1; echo latest comps for $NAV_SEQ/$NAV_SHOT; echo $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/pic/fullcomp/960x402/mono/mono_fullcomp.\*.exr'
+
+alias lsc 'echo latest catalog for $NAV_SEQ/$NAV_SHOT; /bin/ls -1rt $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/maya/catalog/*.icat | tail -n 1'
+
+# grab the latest versions of Maya and Nuke files
+alias v 'echo m `/bin/ls -1rt $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/maya/scenes/lighting_v????.rap | tail -n 1 | sed -n "s/.*\(v[0-9][0-9][0-9][0-9]*\).*/\1/p"`; echo n `/bin/ls -1rt $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/comp/fullcomp_v????.nk | tail -n 1 | sed -n "s/.*\(v[0-9][0-9][0-9][0-9]*\).*/\1/p"`'
+
+alias vv 'set MY_VERSIONS=m\ `/bin/ls -1rt $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/maya/scenes/lighting_v????.rap | tail -n 1 | sed -n "s/.*\(v[0-9][0-9][0-9][0-9]*\).*/\1/p"`; set MY_VERSIONS=(${MY_VERSIONS}\ n\ `/bin/ls -1rt $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/comp/fullcomp_v????.nk | tail -n 1 | sed -n "s/.*\(v[0-9][0-9][0-9][0-9]*\).*/\1/p"`); echo ${MY_VERSIONS} | xclip -i; echo ${MY_VERSIONS}; unset ${MY_VERSIONS}'
+
+# dplay - play images
+# switched all aliases over to 'rv' - dplay aliases are now dpl, dpll etc.
+# rv hold frame behavior requires the package 'Missing Frame Bling' and user config for Missing Frames action to be 'hold'
+# EDIT: rv hold frame behavior may be driven by the exact syntax 'images.#.exr'
+#
+# play latest lighting comp
+alias pl 'echo playing latest lighting comp for $NAV_SEQ/$NAV_SHOT;rv $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp/`/bin/ls -1rt $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp | tail -n 1`/mono/mono_fullcomp.#.exr &'
+
+
+alias plg 'echo playing latest lighting comp - grain for $NAV_SEQ/$NAV_SHOT;rv $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp_grain/`/bin/ls -1rt $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp_grain | tail -n 1`/mono/mono_fullcomp_grain.#.exr &'
+
+alias pl2k 'echo playing latest 2k lighting comp for $NAV_SEQ/$NAV_SHOT;rv $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp/1920x804/mono/mono_fullcomp.#.exr &'
+
+alias pl 'echo playing latest lighting comp for $NAV_SEQ/$NAV_SHOT;rv $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp/`/bin/ls -1rt $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp | tail -n 1`/mono/mono_fullcomp.#.exr &'
+
+alias dpl 'echo playing latest lighting comp for $NAV_SEQ/$NAV_SHOT;dplay -hold auto $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp/`/bin/ls -1rt $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp | tail -n 1`/mono/mono_fullcomp.*.exr'
+
+# play latest lighting 1k
+alias pll 'echo playing latest lighting 1k comp for $NAV_SEQ/$NAV_SHOT;rv $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp/960x402/mono/mono_fullcomp.#.exr &'
+
+alias dpll 'echo playing latest lighting 1k comp for $NAV_SEQ/$NAV_SHOT;dplay -hold auto $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp/960x402/mono/mono_fullcomp.*.exr'
+
+# play latest lighting right eye comp
+alias pls 'echo playing latest right-eye lighting comp for $NAV_SEQ/$NAV_SHOT;rv $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp/`/bin/ls -1rt $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp | tail -n 1`/right/right_fullcomp.#.exr &'
+
+alias dpls 'echo playing latest right-eye lighting comp for $NAV_SEQ/$NAV_SHOT;dplay -hold auto $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp/`/bin/ls -1rt $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp | tail -n 1`/right/right_fullcomp.*.exr'
+
+# play latest efx comp
+alias plx 'echo playing latest efx comp for $NAV_SEQ/$NAV_SHOT;rv $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/fx/new/shot/`/bin/ls -1rt $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/fx/new/shot | tail -n 1`/mono/color/shot_color.#.exr &'
+
+alias dplx 'echo playing latest efx comp for $NAV_SEQ/$NAV_SHOT;dplay -hold auto $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/fx/new/shot/`/bin/ls -1rt $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/fx/new/shot | tail -n 1`/mono/color/shot_color.*.exr'
+
+# play latest anim render
+alias pla 'echo playing latest animation dpix for $NAV_SEQ/$NAV_SHOT;rv `/bin/ls -1rt $PRODROOT/mediaman/movies/repository/$NAV_SEQ/$NAV_SHOT/v????/*-animation.clip | tail -n 1` &'
+
+alias dpla 'echo playing latest animation dpix for $NAV_SEQ/$NAV_SHOT;dplay -hold auto `/bin/ls -1rt $PRODROOT/mediaman/movies/repository/$NAV_SEQ/$NAV_SHOT/v????/*-animation.clip | tail -n 1`'
+
+# play latest autorender
+alias plr 'echo playing latest autorender dpix for $NAV_SEQ/$NAV_SHOT;rv `/bin/ls -1rt $PRODROOT/mediaman/movies/repository/$NAV_SEQ/$NAV_SHOT/v????/*-autorender-shot.clip | tail -n 1` &'
+
+alias dplr 'echo playing latest autorender dpix for $NAV_SEQ/$NAV_SHOT;dplay -hold auto `/bin/ls -1rt $PRODROOT/mediaman/movies/repository/$NAV_SEQ/$NAV_SHOT/v????/*-autorender-shot.clip | tail -n 1`'
+
+# flip frame 3 of stereo
+alias fls 'echo flipping frame 3 of stereo comp for $NAV_SEQ/$NAV_SHOT;rv $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp/`/bin/ls -1rt $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp | tail -n 1`/*/*_fullcomp.0003.exr &'
+
+alias dfls 'echo flipping frame 3 of stereo comp for $NAV_SEQ/$NAV_SHOT;dplay -hold auto $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp/`/bin/ls -1rt $PRODROOT/pic/seq/$NAV_SEQ/$NAV_SHOT/lighting/fullcomp | tail -n 1`/*/*_fullcomp.0003.exr'
+
+# play AOV images out of DLight temp directory
+# updated to handle render logging
+alias dpt 'echo playing AOVs from temp;dplay /disk1/tmp/`/bin/ls -1rt /disk1/tmp | grep cogsworth | tail -1`/images/`/bin/ls -1rt /disk1/tmp/cogsworth*/images/ | tail -1`/*/*.exr'
+
+
+# doMaya completion for rap files
+complete doMaya 'n/*/f:*.{rap}/'
+# dlight completion
+complete dlight 'n/*/f:*.{rap,mat,lgt}/'
+
+# shot notes/dailies, datestamp entries
+alias dailies 'echo # `date` >> $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/notes.txt; vi $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/notes.txt'
+
+# shot keyframes
+alias kk 'grep keyframes $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/notes.txt'
+
+# shot queue summary using qssumary
+alias qss 'qssummary $NAV_SEQ/${NAV_SHOT}'
+
+# list renderpass levels for the current shot
+alias lpic '/bin/ls -1 $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/pic/current/'
+
+# compare old, current new of a renderpass
+
+alias lc 'dplay $PRODROOT/$NAV_TREE/$NAV_SANDBOX/$NAV_ASSETTYPE/$NAV_SEQ/$NAV_SHOT/$NAV_DEPT/pic/*/\!*/*/cam_*:CAM/color/{\!*}_color.0001.exr'
+
+# IES files - bring up the choices
+alias ies 'rv /disney/shows/default/work/Asset/sharedData/IES/mappingOldIEStoNewIES/captureAll_v5flatOfficialReorganized.jpg'
+
+# Color Temperature - bring up a chart
+alias colortemp 'rv /disney/users/jmacleod/projects/colorTemp/ShoresCanadaKelvin.jpg'

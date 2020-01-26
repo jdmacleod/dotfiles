@@ -1,0 +1,50 @@
+# custom tcsh completions
+# jmacleod 
+# Tue Sep 11 11:05:22 PDT 2001
+
+
+    complete man 'n/*/c/'
+    complete which 'n/*/c/'
+    complete dbx 'p/2/(core)/' 'n/*/c/'
+    complete edge 'p/2/(core)/' 'n/*/c/'
+    complete set 'p/1/s/'
+    complete unset 'p/1/s/'
+    complete setenv 'p/1/e/'
+    complete unsetenv 'p/1/e/'
+    complete complete 'p/1/c/'
+    complete cd 'p/1/d/'
+    complete pu 'p/1/d/'
+    complete pushd 'p/1/d/'
+    complete vi 'n/*/f/'
+    complete fg 'n/*/j/'
+    complete bg 'n/*/j/'
+    complete kill 'c/-/`kill -l`/' 
+    complete gzip 'c/-/(9)/' 'n/-r/d/' 'n/-9/(-v)/' 'n/*/f/'
+    complete gunzip 'n/*/f:*.{gz,z,Z}/'
+    complete compress 'n/*/f/'
+    complete uncompress 'n/*/f:*.Z/'
+    complete unpack 'n/*/f:*.z/'
+    complete zcat 'n/*/f:*.{gz,z,Z}/'
+    complete tar 'n/-x*f/f:*.tar/' 'c/-x/(vopf)/' 'c/-c/(vf)/' \
+                 'n/-c*f/f:*.tar/' 'n/-t*f/f:*.tar/'
+    complete ipaste 'n/*/f:*.{sgi,rgb,bw,icon}/'
+    complete jpaste 'n/*/f:*.{JPG,jpg,jpeg,JPEG}/'
+    complete SceneViewer 'n/*/f:*.iv/'
+    complete ivcat 'n/*/f:*.iv/'
+    complete playaiff 'n/*/f:*.{aiff,aifc}/'
+    complete playaifc 'n/*/f:*.{aiff,aifc}/'
+    complete gs 'n/*/f:*.ps/'
+    complete ghostview 'n/*/f:*.ps/'
+    complete xpsview 'n/*/f:*.ps/'
+    complete fdesign 'p/1/f:*.fd/'
+    complete login 'p/1/u/'
+    complete model 'c/-/(ed)/' n,\*,'`/bin/ls . $WF_OBJ_DIR | egrep \(.obj\$\|.mod\$\)`',
+    complete pv 'c/-/(ed)/' n,\*,'`/bin/ls . $WF_SCMP_DIR | grep .pv\$`',
+    complete dynamation n,\*,'`/bin/ls . $WF_SCMP_DIR | egrep \(.pxa\$\|.pv\$\)`',
+    complete kinemation n,\*,'`/bin/ls . $WF_SCMP_DIR | egrep \(.kin\$\|.pv\$\)`',
+    complete im n,\*,'`/bin/ls . | egrep -v \(.z\$\|.Z\$\|.gz\$\)`',
+    complete imf_dspl n,\*,'`/bin/ls . | egrep -v \(.z\$\|.Z\$\|.gz\$\)`',
+    complete i n,\*,'`/bin/ls $WF_IMG_DIR | egrep -v \(.z\$\|.Z\$\|.gz\$\)`',
+    complete imf_info n,\*,'`/bin/ls . $WF_IMG_DIR | egrep -v \(.z\$\|.Z\$\|.gz\$\)`',
+
+complete cvs p/1/"(add admin annotate checkout commit diff edit editors export history import init log login rdiff release remove rtag status tag unedit update watch)"/

@@ -1,0 +1,250 @@
+#
+#	Example file for tcsh programmable completion
+#
+# From the man page:
+#
+# 33. PROGRAMMABLE COMPLETION
+#
+#   The new complete and uncomplete builtins can change the
+#   behavior of the listing and file-completion in tcsh. For
+#   example some commands like cd, pushd, popd , mkdir(1),
+#   rmdir(1) accept only directories as arguments.  Normally
+#   tcsh when asked to list or complete an argument for those
+#   commands takes into account all the files and not only
+#   directories. This behavior can be changed by telling tcsh
+#   that these commands only expect directory arguments:
+#
+#   > complete cd 'n/*/d/'
+#
+#   The above command tells tcsh to complete any following word
+#   with a directory.  Now when you hit TAB for completion, tcsh
+#   will only attempt to complete directory names.  Similarly,
+#   ^D will only list directories.
+#
+#   The syntax for the complete and uncomplete builtins is:
+#
+#	complete [<command-pattern> [<completion-argument>]]
+#	uncomplete <command-pattern>
+#
+#   Completion arguments are matched in turn from left to right
+#   and the first sucessful match is returned.  There are three
+#   different completion arguments, modelled after the sed(1)
+#   substitute command and they are of the form:
+#
+#       <command>/<match-pattern>/<complete-action>/[<suffix>|/]
+#
+#   The five commands available are:
+#
+#	p    This specifies position-dependent completion. The
+#	     matching pattern is a numeric range.
+#
+#	n,N  This command specifies next-word completions. The
+#	     matching pattern in this case is a shell pattern that
+#	     must match the previous word on the command line (n),
+#	     or the word before that (N).
+#
+#	c,C  The last completion command completes the current word.
+#	     The matching pattern in this case must match the prefix
+#	     of the current word.  While `c' discards the matched
+#	     prefix, `C' keeps it and applies the completion using it.
+#
+#	C	Complete completions
+#	S	Complete signals
+#	a	Complete aliases
+#	b	Complete binding
+#	c	Complete command
+#	d	Complete directory
+#	e	Complete environment variable
+#	f	Complete file or path component
+#	j	Complete jobs
+#	l	Complete limits
+#	n	Complete nothing
+#	p:path	Complete files using the supplied pathname prefix
+#	s	Complete shell variable
+#	t	Complete non directory `text' filename
+#	v	Complete any variable
+#	u	Complete username
+#	x:'txt'	Explain (i.e. print the text)
+#	$var	Complete using words from variable
+#	(...)	Complete using words from list
+#	`cmd`	Use output from the command to provide the completion list
+#
+# See man tcsh for more specifics.
+
+# Customized for frequently-used hosts:
+set hosts = `/rel/sysadm/scripts/systeminfo -A | awk '$4 == "FAN" { print $1 }' | grep -v '^[0-9]' | grep -v '^hprf'`
+
+# Customized for mail folders
+set mailfolders = `ls -1 $HOME/Mail | sort -u`
+
+# Temporary alias for duration of this file:
+alias C complete
+set noglob
+
+# Favoritism:
+# C -comp*	'p/0/(compress)/'
+
+# Other wavefront stuff
+# force comp to complete as composer
+
+# Only aliases match:
+C alias		p/1/a/
+C unalias	n/*/a/
+
+# Complete from list in $hosts:
+C rcp		c/*:/f/ C@[./]*@f@ c/*@/\$hosts/ n/*/\$hosts/:
+C rlogin	c/*@/\$hosts/ p/1/\$hosts/ n/-l/u/
+C rsh		p/1/\$hosts/ p/2/c/
+C ping		p/1/\$hosts/
+C systeminfo	p/1/\$hosts/
+
+# Complete from list of $mailfolders
+# mf is my alias for Mail -f
+C mf		p/1/\$mailfolders/
+
+# Only directories match:
+C cd		p/1/d/
+C chdir		p/1/d/
+C pushd		p/1/d/
+C popd		p/1/d/
+C pu		p/1/d/
+C po		p/1/d/
+C mkdir		n/*/d/
+C md		n/*/d/
+C rmdir		p/1/d/
+C mount		p/1/f/ p/2/d/
+C umount	p/1/d/
+
+# Only commands match:
+C man		p/1/c/
+C exec		p/1/c/
+C time		p/1/c/
+C which		p/1/c/
+C where		p/1/c/
+C xargs		p/1/c/
+
+# Only variables match:
+C set		c/*=/f/ n/*/s/=
+C unset		n/*/s/
+C setenv	p/1/e/
+C unsetenv	n/*/e/
+
+# Completions:
+C complete	p/1/C/
+C uncomplete	p/1/C/
+
+# Only usernames match:
+C finger	n/*/u/
+C su		n/*/u/
+C Mail		n/*/u/
+C mail		c@=@p:$HOME/Mail/@ n/-f/f/ n/*/u/
+C elm		c@=@p:$HOME/Mail/@ n/-f/f/ n/*/u/
+
+# Jobs patterns:
+C kill		c/-/S/ 'n/*/`complete_kill.pl`/'
+if ( -X complete_killall.pl ) then
+	C killall	p/1/'`complete_killall.pl`'/
+endif
+C %*		c/%/j/
+C fg		c/%/j/
+C bg		c/%/j/
+C stop		c/%/j/
+
+# Handle compiler completions:
+C cc		c/-I/d/ c/-L/d/ 'c/-/(o c g O L I D U)/' n/*/f:*.[coa]/
+C CC		c/-I/d/ c/-L/d/ 'c/-/(o c g O L I D U)/' n/*/f:*.[coa]/
+C nm		n/*/f:*.[oa]/
+C make		c/*=/f/
+C smake		c/*=/f/
+C dbx		p/2/\(core\)/ n/*/c/
+
+# Protect precious files:
+C rm		n/*/f:^*.{c,h,cc,C,c++,1,man,l,y}/
+
+# Compression and archive file names:
+C zcat		n/*/f:*.{gz,Z}/
+C uncompress	n/*/f:*.Z/
+C compress	n/*/f:^*.Z/
+C gunzip	n/*/f:*.gz/
+C gzip		n/*/f:^*.gz/
+
+# Miscellaneous commands:
+C vi		'n/-t/`egrep ^$:2 tags | cut -f1`/' n/*/f:^*.[aou]/
+
+C ipaste	'C:*faces/:f:' 'p:1:(/usr/lib/faces):/'
+
+C find		n/-name/f/ n/-user/u/ n/-exec/c/ n/-ok/c/ n/-cpio/f/ \
+		n/-*newer/f/ 'c/-/(name perm type links user group \
+		size inum atime mtime ctime exec ok print cpio newer \
+		anewer cnewer depth prune mount local follow)/' n/*/d/
+
+C scd 'p/1/(FIRE)/' 'p%2%`/bin/ls /data/fan02/FIRE/ | sed "s#^0##"`%' 'p%3%`/bin/ls /data/fan02/FIRE/0[0,5].? | fgrep -v / | sed "s#^0*##"`%' 'p/4/(SPRITE)/'
+
+C xv		'c/-/(help display geometry fixed expand aspect \
+		perfect owncmap ninstall quick24 slow24 best24 root \
+		rmode quit clear)/'
+
+C xlock	'n/-mode/(blank rotor pyro flame hop image life pop \
+		qix swarm random)/' 'c/+/(remote mono nolock \
+		allowroot enablesaver besaver allowaccess echokeys \
+		usefirst)/' 'c/-/(display mode delay batchcount \
+		colorcount nice timeout saturation font fg bg name \
+		password info validate invalid resources remote mono \
+		nolock allowroot enablesaver besaver blankthresh \
+		allowaccess echokeys usefirst v)/'
+
+
+# custom tcsh completions
+# jmacleod 
+# Tue Sep 11 11:05:22 PDT 2001
+
+
+C man 'n/*/c/'
+C which 'n/*/c/'
+C dbx 'p/2/(core)/' 'n/*/c/'
+C edge 'p/2/(core)/' 'n/*/c/'
+C set 'p/1/s/'
+C unset 'p/1/s/'
+C setenv 'p/1/e/'
+C unsetenv 'p/1/e/'
+C C 'p/1/c/'
+C cd 'p/1/d/'
+C pu 'p/1/d/'
+C pushd 'p/1/d/'
+C vi 'n/*/f/'
+C fg 'n/*/j/'
+C bg 'n/*/j/'
+C kill 'c/-/`kill -l`/' 
+C gzip 'c/-/(9)/' 'n/-r/d/' 'n/-9/(-v)/' 'n/*/f/'
+C gunzip 'n/*/f:*.{gz,z,Z}/'
+C compress 'n/*/f/'
+C uncompress 'n/*/f:*.Z/'
+C unpack 'n/*/f:*.z/'
+C zcat 'n/*/f:*.{gz,z,Z}/'
+C tar 'n/-x*f/f:*.tar/' 'c/-x/(vopf)/' 'c/-c/(vf)/' \
+                 'n/-c*f/f:*.tar/' 'n/-t*f/f:*.tar/'
+C ipaste 'n/*/f:*.{sgi,rgb,bw,icon}/'
+C jpaste 'n/*/f:*.{JPG,jpg,jpeg,JPEG}/'
+C SceneViewer 'n/*/f:*.iv/'
+C ivcat 'n/*/f:*.iv/'
+C playaiff 'n/*/f:*.{aiff,aifc}/'
+C playaifc 'n/*/f:*.{aiff,aifc}/'
+C gs 'n/*/f:*.ps/'
+C ghostview 'n/*/f:*.ps/'
+C xpsview 'n/*/f:*.ps/'
+C fdesign 'p/1/f:*.fd/'
+C login 'p/1/u/'
+C model 'c/-/(ed)/' n,\*,'`/bin/ls . $WF_OBJ_DIR | egrep \(.obj\$\|.mod\$\)`',
+C pv 'c/-/(ed)/' n,\*,'`/bin/ls . $WF_SCMP_DIR | grep .pv\$`',
+C dynamation n,\*,'`/bin/ls . $WF_SCMP_DIR | egrep \(.pxa\$\|.pv\$\)`',
+C kinemation n,\*,'`/bin/ls . $WF_SCMP_DIR | egrep \(.kin\$\|.pv\$\)`',
+C im n,\*,'`/bin/ls . | egrep -v \(.z\$\|.Z\$\|.gz\$\)`',
+C imf_dspl n,\*,'`/bin/ls . | egrep -v \(.z\$\|.Z\$\|.gz\$\)`',
+C i n,\*,'`/bin/ls $WF_IMG_DIR | egrep -v \(.z\$\|.Z\$\|.gz\$\)`',
+C imf_info n,\*,'`/bin/ls . $WF_IMG_DIR | egrep -v \(.z\$\|.Z\$\|.gz\$\)`',
+
+C cvs p/1/"(add admin annotate checkout commit diff edit editors export history import init log login rdiff release remove rtag status tag unedit update watch)"/
+
+# Undo temporary settings:
+unset noglob
+unalias C
