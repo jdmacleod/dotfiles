@@ -35,7 +35,7 @@ directory_name(){
   echo "%{$fg_bold[cyan]%}%~%\/%{$reset_color%}"
 }
 
-export PROMPT=$'\n$(username) in $(directory_name)\n$ '
+#export PROMPT=$'\n$(username) in $(directory_name)\n$ '
 
 precmd() {
   title "zsh" "%m" "%55<...<%~"
