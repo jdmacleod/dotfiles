@@ -1,0 +1,19 @@
+# set Terminal Profile / colors from commandline
+#
+# https://stackoverflow.com/questions/67406491/osascript-how-to-pass-in-a-variable
+# https://stackoverflow.com/questions/16966117/combining-variables-in-bash-to-form-a-command-sent-to-applescript-using-the-osas/16977401#16977401
+function setprofile() {
+  # Check if the number of arguments ($#) is 0
+  if (( $# == 0 )); then
+    # Print an error message to standard error (>&2)
+    echo >&2 "Profiles:"
+    defaults read com.apple.Terminal "Window Settings" | grep -E 'name = ' | sed 's/name =//; s/\;//'
+    return 1 # Return with a non-zero status to indicate failure
+  fi
+
+  # If an argument is provided, proceed with the function's logic
+  local arg_value="$1" # Store the first argument in a local variable
+  echo "Argument received: $arg_value"
+  osascript -e 'on run {theProfile}' -e 'tell application "Terminal" to set current settings of front window to settings set theProfile' -e 'end run' $arg_value
+}
+
